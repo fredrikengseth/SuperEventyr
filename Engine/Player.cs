@@ -32,6 +32,7 @@ namespace Engine
         /*
         private int calcLevel()
         {
+        Ja, dette fungerer virkelig ikke
             (ExperiencePoints / 100) + 1)
 
             return level
