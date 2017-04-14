@@ -32,7 +32,7 @@ namespace Engine
         /*
         private int calcLevel()
         {
-        Ja, dette fungerer virkelig ikke
+        Jammen så fungerer det
             (ExperiencePoints / 100) + 1)
 
             return level
