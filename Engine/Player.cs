@@ -14,11 +14,13 @@ namespace Engine
         public int ExperiencePoints { get; set; }
         public int Level
         {
-            get { return (ExperiencePoints / 100) + 1; }
+            get { return calcLevel(); }
         }
         public List<InventoryItem> Inventory { get; set; }
         public List<PlayerQuest> Quests { get; set; }
         public Location CurrentLocation { get; set; }
+
+        private int LevelInc = 100, lev = 1;
 
 
         public Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints) : base(currentHitPoints, maximumHitPoints)
@@ -29,15 +31,17 @@ namespace Engine
             Quests = new List<PlayerQuest>();
         }
 
-        /*
+        
         private int calcLevel()
         {
-        Jammen så fungerer det
-            (ExperiencePoints / 100) + 1)
+            lev += 1;
 
-            return level
+            //lev = (ExperiencePoints / LevelInc) + 1;
+            
+
+            return lev;
         }
-        */
+        
 
         public bool HasRequiredItemToEnterThisLocation(Location location)
         {
