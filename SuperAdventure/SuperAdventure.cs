@@ -261,7 +261,7 @@ namespace SuperAdventure
             if (weapons.Count == 0)
             {
                 // The player doesn't have any weapons, so hide the weapon combobox and "Use" button
-            cboWeapons.Visible = false;
+                cboWeapons.Visible = false;
                 btnUseWeapon.Visible = false;
             }
             else
@@ -487,8 +487,14 @@ namespace SuperAdventure
             rtbMessages.ScrollToCaret();
         }
 
+
+
+        private void cboWeapons_SelectedIndexChanged(
+            object sender, EventArgs e)
+        {
+            _player.CurrentWeapon = (Weapon)cboWeapons.SelectedItem;
+        }
+
     }
-
-
 
 }

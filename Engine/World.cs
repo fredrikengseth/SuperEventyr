@@ -72,7 +72,7 @@ namespace Engine
             Items.Add(new Item(ITEM_ID_SPIDER_FANG, "Spider fang", "Spider fangs"));
             Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks"));
             Items.Add(new Item(ITEM_ID_ADVENTURER_PASS,"Adventurer pass", "Adventurer passes"));
-            Items.Add(new Item(ITEM_ID_SAND, "Just sand", "More sand"));
+            Items.Add(new Item(ITEM_ID_SAND, "Sand", "More sand"));
             Items.Add(new Item(ITEM_ID_MONSTER_EYE, "Monster eye", "Monster eyes"));
             Items.Add(new Item(ITEM_ID_TRAINTICKET, "Trainticket", "Traintickets"));
             Items.Add(new Weapon(ITEM_ID_LONG_SWORD, "Longsword", "Longswords",5 , 15));
