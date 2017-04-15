@@ -20,7 +20,7 @@ namespace Engine
         public List<PlayerQuest> Quests { get; set; }
         public Location CurrentLocation { get; set; }
 
-        private int LevelInc = 100, lev = 1;
+        private int LevelInc = 100, lev;
 
 
         public Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints) : base(currentHitPoints, maximumHitPoints)
@@ -34,11 +34,8 @@ namespace Engine
         
         private int calcLevel()
         {
-            lev += 1;
-
-            //lev = (ExperiencePoints / LevelInc) + 1;
+            lev = (ExperiencePoints / (100 + (ExperiencePoints / 10)) + 1);
             
-
             return lev;
         }
         
