@@ -335,6 +335,9 @@ namespace SuperAdventure
                 ScrollToBottomOfMessages();
                 lblExperience.Text = _player.ExperiencePoints.ToString();
 
+                // Increases the players maximum hit points with level*10
+                _player.MaximumHitPoints = _player.Level * 10;
+
                 // Give player gold for killing the monster
                 _player.Gold += _currentMonster.RewardGold;
                 rtbMessages.Text += "You receive " + _currentMonster.RewardGold.ToString() + " gold" + Environment.NewLine;

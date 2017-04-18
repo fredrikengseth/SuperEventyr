@@ -35,7 +35,6 @@ namespace Engine
             Quests = new List<PlayerQuest>();
         }
 
-        
         private int calcLevel()
         {
             lev = (ExperiencePoints / (100 + (ExperiencePoints / 10)) + 1);
