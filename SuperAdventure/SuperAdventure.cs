@@ -77,6 +77,9 @@ namespace SuperAdventure
             rtbLocation.Text = newLocation.Name + Environment.NewLine;
             rtbLocation.Text += newLocation.Description + Environment.NewLine;
 
+            // Increases the players max hitpoints with level*10
+            _player.MaximumHitPoints = _player.Level * 10;
+
             // Completely heal the player
             _player.CurrentHitPoints = _player.MaximumHitPoints;
 
