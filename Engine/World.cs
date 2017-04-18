@@ -27,14 +27,21 @@ namespace Engine
         public const int ITEM_ID_MONSTER_EYE = 12;
         public const int ITEM_ID_TRAINTICKET = 13;
         public const int ITEM_ID_LONG_SWORD = 14;
+        public const int ITEM_ID_CLIMBING_SHOES = 15;
+        public const int ITEM_ID_PEBLES = 16;
+        public const int ITEM_ID_STONEKEY = 17;
+        public const int ITEM_ID_WALLACE_SWORD = 18;
 
         public const int MONSTER_ID_RAT = 1;
         public const int MONSTER_ID_SNAKE = 2;
         public const int MONSTER_ID_GIANT_SPIDER = 3;
         public const int MONSTER_ID_DESERT_MONSTER = 4;
+        public const int MONSTER_ID_GARGOYLE = 5;
 
         public const int QUEST_ID_CLEAR_ALCHEMIST_GARDEN = 1;
         public const int QUEST_ID_CLEAR_FARMERS_FIELD = 2;
+        public const int QUEST_ID_CLEAR_DESERT = 3;
+        public const int QUEST_ID_CLEAR_MOUNTAIN = 4;
 
         public const int LOCATION_ID_HOME = 1;
         public const int LOCATION_ID_TOWN_SQUARE = 2;
@@ -47,6 +54,9 @@ namespace Engine
         public const int LOCATION_ID_SPIDER_FIELD = 9;
         public const int LOCATION_ID_RAILROAD = 10;
         public const int LOCATION_ID_DESERT = 11;
+        public const int LOCATION_ID_DEEP_FOREST = 12;
+        public const int LOCATION_ID_MOUNTAIN = 13;
+
 
         static World()
         {
@@ -76,6 +86,8 @@ namespace Engine
             Items.Add(new Item(ITEM_ID_MONSTER_EYE, "Monster eye", "Monster eyes"));
             Items.Add(new Item(ITEM_ID_TRAINTICKET, "Trainticket", "Traintickets"));
             Items.Add(new Weapon(ITEM_ID_LONG_SWORD, "Longsword", "Longswords",5 , 15));
+            Items.Add(new Item(ITEM_ID_CLIMBING_SHOES, "Climbingshoes", "Climbingshoes"));
+            Items.Add(new Weapon(ITEM_ID_WALLACE_SWORD, "The Wallace Sword", "Wallace Swords", 100, 10000));
         }
 
         private static void PopulateMonsters()
@@ -97,10 +109,16 @@ namespace Engine
             desertmonster.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SAND), 80, true));
             desertmonster.LootTable.Add(new LootItem(ItemByID(ITEM_ID_MONSTER_EYE), 20, false));
 
+            Monster gargoyle = new Monster(MONSTER_ID_GARGOYLE, "Stone gargoyle", 20, 100, 150, 40, 40);
+            gargoyle.LootTable.Add(new LootItem(ItemByID(ITEM_ID_PEBLES), 70, true));
+            gargoyle.LootTable.Add(new LootItem(ItemByID(ITEM_ID_STONEKEY), 10, false));
+
+
             Monsters.Add(rat);
             Monsters.Add(snake);
             Monsters.Add(giantSpider);
             Monsters.Add(desertmonster);
+            Monsters.Add(gargoyle);
         }
 
 
@@ -111,14 +129,23 @@ namespace Engine
                 "Kill rats in the alchemist's garden and bring back 3 rat tails.You will receive a healing potion and 10 gold pieces.", 20, 10);
             clearAlchemistGarden.QuestCompletionItems.Add(new QuestCompletionItem(ItemByID(ITEM_ID_RAT_TAIL), 3));
             clearAlchemistGarden.RewardItem = ItemByID(ITEM_ID_HEALING_POTION);
+
             Quest clearFarmersField = new Quest(QUEST_ID_CLEAR_FARMERS_FIELD,"Clear the farmer's field",
                 "Kill snakes in the farmer's field and bring back 3 snake fangs.You will receive an adventurer's pass and a longsword.", 20, 0);
             clearFarmersField.QuestCompletionItems.Add(new QuestCompletionItem(ItemByID(ITEM_ID_SNAKE_FANG), 3));
             clearFarmersField.RewardItem = ItemByID(ITEM_ID_ADVENTURER_PASS);
-            clearFarmersField.RewardItem = ItemByID(ITEM_ID_LONG_SWORD);
+
+            Quest clearDesert = new Quest(QUEST_ID_CLEAR_DESERT, "Clear the desert for monsters", "kill desert monsters int the desert and collect 3 eyes. You will recieve a powerfull longsword", 50, 50);
+            clearDesert.QuestCompletionItems.Add(new QuestCompletionItem(ItemByID(ITEM_ID_MONSTER_EYE), 3));
+            clearDesert.RewardItem = ItemByID(ITEM_ID_CLIMBING_SHOES);
+
+            Quest clearMountain = new Quest(QUEST_ID_CLEAR_MOUNTAIN, "Clear the mountain for gargoyles", "Kill the gargoyles to collect pebles, return with 20 pebles for a reward.", 200, 100);
+            clearMountain.QuestCompletionItems.Add(new QuestCompletionItem(ItemByID(ITEM_ID_PEBLES), 20));
+            clearMountain.RewardItem = ItemByID(ITEM_ID_WALLACE_SWORD);
 
             Quests.Add(clearAlchemistGarden);
             Quests.Add(clearFarmersField);
+            Quests.Add(clearDesert);
         }
 
 
@@ -160,6 +187,14 @@ namespace Engine
                 ItemByID(ITEM_ID_TRAINTICKET));
             desert.MonsterLivingHere = MonsterByID(MONSTER_ID_DESERT_MONSTER);
 
+            Location deepforest = new Location(LOCATION_ID_DEEP_FOREST, "Deep forest", "It's a deep forest, but over the trees you see a big mountain.",
+                null,QuestByID(QUEST_ID_CLEAR_MOUNTAIN));
+           
+
+            Location mountain = new Location(LOCATION_ID_MOUNTAIN, "Mountain", "It's really cold up here, and you see something moving in the snow.", ItemByID(ITEM_ID_CLIMBING_SHOES),
+                null,MonsterByID(MONSTER_ID_GARGOYLE));
+
+
             // Link the locations together
             home.LocationToNorth = townSquare;
             townSquare.LocationToNorth = alchemistHut;
@@ -176,6 +211,10 @@ namespace Engine
             alchemistHut.LocationToSouth = townSquare;
             alchemistHut.LocationToNorth = alchemistsGarden;
             alchemistsGarden.LocationToSouth = alchemistHut;
+            alchemistsGarden.LocationToNorth = deepforest;
+            deepforest.LocationToSouth = alchemistsGarden;
+            deepforest.LocationToNorth = mountain;
+            mountain.LocationToSouth = deepforest;
             guardPost.LocationToEast = bridge;
             guardPost.LocationToWest = townSquare;
             bridge.LocationToWest = guardPost;
@@ -193,6 +232,10 @@ namespace Engine
             Locations.Add(farmersField);
             Locations.Add(bridge);
             Locations.Add(spiderField);
+            Locations.Add(railroad);
+            Locations.Add(desert);
+            Locations.Add(deepforest);
+            Locations.Add(mountain);
         }
 
 
